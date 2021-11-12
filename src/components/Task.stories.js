@@ -7,7 +7,7 @@ import Task from './Task';
 //Component description and sidebar reference
 export default {
   component: Task,
-  title: 'Task',
+  title: 'Task!',
 };
 
 //Test states
