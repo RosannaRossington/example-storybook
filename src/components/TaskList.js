@@ -1,23 +1,12 @@
 import React from 'react';
 import Task from './Task';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 //composite component contains another component
 
-const TaskList = ({ loading, tasks, onPinTask, onArchiveTask }) => {
-    TaskList.propTypes = {
-      /** Checks if it's in loading state */
-      /** Checks if it's in loading state */
-      loading: PropTypes.bool,
-      /** The list of tasks */
-      tasks: PropTypes.arrayOf(Task.propTypes.task).isRequired,
-      /** Event to change the task to pinned */
-      onPinTask: PropTypes.func,
-      /** Event to change the task to archived */
-      onArchiveTask: PropTypes.func,
-     };
-     TaskList.defaultProps = {
-      loading: false,
-     };
+import { connect } from 'react-redux';
+import { archiveTask, pinTask } from '../lib/redux';
+
+export function PureTaskList({ loading, tasks, onPinTask, onArchiveTask }) {
   const events = {
     onPinTask,
     onArchiveTask,
@@ -58,10 +47,10 @@ const TaskList = ({ loading, tasks, onPinTask, onArchiveTask }) => {
     );
   }
 
-
-  const tasksInOrder = [// order pinned first
-    ...tasks.filter(t => t.state === 'TASK_PINNED'),
-    ...tasks.filter(t => t.state !== 'TASK_PINNED'),
+  const tasksInOrder = [
+    // order pinned first
+    ...tasks.filter((t) => t.state === 'TASK_PINNED'),
+    ...tasks.filter((t) => t.state !== 'TASK_PINNED'),
   ];
 
   return (
@@ -71,5 +60,34 @@ const TaskList = ({ loading, tasks, onPinTask, onArchiveTask }) => {
       ))}
     </div>
   );
+}
+
+PureTaskList.propTypes = {
+  /** Checks if it's in loading state */
+  /** Checks if it's in loading state */
+  loading: PropTypes.bool,
+  /** The list of tasks */
+  tasks: PropTypes.arrayOf(Task.propTypes.task).isRequired,
+  /** Event to change the task to pinned */
+  onPinTask: PropTypes.func,
+  /** Event to change the task to archived */
+  onArchiveTask: PropTypes.func,
 };
-export default TaskList;
+
+PureTaskList.defaultProps = {
+  loading: false,
+};
+
+//TaskList connects to the store 
+//sets the props on the PureTaskList component it wraps.
+export default connect(
+  ({ tasks }) => ({
+    tasks: tasks.filter(
+      (t) => t.state === 'TASK_INBOX' || t.state === 'TASK_PINNED'
+    ),
+  }),
+  (dispatch) => ({
+    onArchiveTask: (id) => dispatch(archiveTask(id)),
+    onPinTask: (id) => dispatch(pinTask(id)),
+  })
+)(PureTaskList);
