@@ -1,12 +1,13 @@
 import React from 'react';
 import Task from './Task';
 import PropTypes from 'prop-types';
-//composite component contains another component
+//composite component contains another component - this is a container component that renders the PureTaskList
 
 import { connect } from 'react-redux';
 import { archiveTask, pinTask } from '../lib/redux';
 
 export function PureTaskList({ loading, tasks, onPinTask, onArchiveTask }) {
+
   const events = {
     onPinTask,
     onArchiveTask,
@@ -63,22 +64,22 @@ export function PureTaskList({ loading, tasks, onPinTask, onArchiveTask }) {
 }
 
 PureTaskList.propTypes = {
-  /** Checks if it's in loading state */
-  /** Checks if it's in loading state */
-  loading: PropTypes.bool,
-  /** The list of tasks */
-  tasks: PropTypes.arrayOf(Task.propTypes.task).isRequired,
-  /** Event to change the task to pinned */
-  onPinTask: PropTypes.func,
-  /** Event to change the task to archived */
-  onArchiveTask: PropTypes.func,
-};
+    /** Checks if it's in loading state */
+    /** Checks if it's in loading state */
+    loading: PropTypes.bool,
+    /** The list of tasks */
+    //tasks: PropTypes.arrayOf(Task.propTypes.task),<- check this
+    /** Event to change the task to pinned */
+    onPinTask: PropTypes.func,
+    /** Event to change the task to archived */
+    onArchiveTask: PropTypes.func,
+  };
 
-PureTaskList.defaultProps = {
-  loading: false,
-};
+  PureTaskList.defaultProps = {
+    loading: false,
+  };
 
-//TaskList connects to the store 
+//TaskList connects to the store
 //sets the props on the PureTaskList component it wraps.
 export default connect(
   ({ tasks }) => ({
