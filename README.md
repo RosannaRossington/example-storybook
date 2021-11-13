@@ -8,9 +8,13 @@
 <h1 align="center">
   Chromatic's Intro to Storybook React template
 </h1>
-##Builds
+
+## Builds
+
 https://www.chromatic.com/build?appId=618eea0c016299003ae51bd8&number=3
-##Storybook
+
+## Storybook
+
 https://618eea0c016299003ae51bd8-raphxuyelg.chromatic.com/?path=/story/inboxscreen--default
 
 This template ships with the main React and Storybook configuration files you'll need to get up and running fast.
